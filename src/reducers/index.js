@@ -1,7 +1,8 @@
 const types = {
-  PERSONS_FETCH: "PERSONS_FETCH",
-  PERSONS_FETCH_SUCCESS: "PERSONS_FETCH_SUCCESS",
-  PERSONS_FETCH_FAILURE: "PERSONS_FETCH_FAILURE"
+  USER_FETCH: "USER_FETCH",
+  USER_FETCH_SUCCESS: "USER_FETCH_SUCCESS",
+  USER_FETCH_FAILURE: "USER_FETCH_FAILURE",
+  USER_CLEAR: "USER_CLEAR"
 };
 const initalState = {
   users: [],
@@ -11,7 +12,15 @@ const initalState = {
 };
 export default (state = initalState, { type, payload }) => {
   switch (type) {
-    case types.PERSONS_FETCH: {
+    case types.USER_CLEAR: {
+      return {
+        ...state,
+        error: false,
+        users: [],
+        loading: false
+      };
+    }
+    case types.USER_FETCH: {
       return {
         error: false,
         users: [],
@@ -19,14 +28,14 @@ export default (state = initalState, { type, payload }) => {
         filters: payload
       };
     }
-    case types.PERSONS_FETCH_SUCCESS: {
+    case types.USER_FETCH_SUCCESS: {
       return {
         ...state,
         users: payload,
         loading: false
       };
     }
-    case types.PERSONS_FETCH_FAILURE: {
+    case types.USER_FETCH_FAILURE: {
       return {
         ...state,
         users: [],
@@ -38,14 +47,16 @@ export default (state = initalState, { type, payload }) => {
       return state;
   }
 };
-const fetchUsers = filters => ({ type: types.PERSONS_FETCH, payload: filters });
-
+const fetchUsers = filters => ({ type: types.USER_FETCH, payload: filters });
+const clearUsers = () => ({ type: types.USER_CLEAR });
 const actions = {
-  fetchUsers
+  fetchUsers,
+  clearUsers
 };
 const selectors = {
   getUsers: state => state.users,
   isLoading: state => state.loading,
-  isError: state => state.error
+  isError: state => state.error,
+  canClear: state => state.users.length > 0
 };
 export { types, actions, selectors };

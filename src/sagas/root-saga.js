@@ -5,11 +5,11 @@ import { fetchUsers } from "./../lib/api";
 function* userSaga(action) {
   try {
     const users = yield call(fetchUsers, action);
-    yield put({type:UserTypes.PERSONS_FETCH_SUCCESS, payload:users});
+    yield put({type:UserTypes.USER_FETCH_SUCCESS, payload:users});
   } catch (error) {
-    yield put({ type:UserTypes.PERSONS_FETCH_FAILURE, payload:error});
+    yield put({ type:UserTypes.USER_FETCH_FAILURE, payload:error});
   }
 }
 export default function* rootSaga() {
-  yield takeEvery(UserTypes.PERSONS_FETCH, userSaga);
+  yield takeEvery(UserTypes.USER_FETCH, userSaga);
 }

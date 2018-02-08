@@ -11,19 +11,20 @@ const styles = {
 
 const UserListWrapper = WithLoader(UserList);
 
-const App = ({ fetchUsers, ...rest }) => (
+const App = ({ fetchUsers, canClear, clearUsers, ...rest }) => (
   <div style={styles}>
     <h2>Click to see some magic happen {"\u2728"}</h2>
-    <button onClick={fetchUsers}> Fetch Users</button>
+    {(canClear) ? <button onClick={clearUsers}> Clear</button> : <button onClick={fetchUsers}> Fetch Users</button>
+    }
     <UserListWrapper {...rest} />
   </div>
 );
 const props = state => ({
   users: selectors.getUsers(state),
   isLoading: selectors.isLoading(state),
-  isError: selectors.isError(state)
+  isError: selectors.isError(state),
+  canClear: selectors.canClear(state),
 });
-const actions = {
-  fetchUsers: UserActions.fetchUsers
-};
+const actions = { ...UserActions};
+
 export default connect(props, actions)(App);
