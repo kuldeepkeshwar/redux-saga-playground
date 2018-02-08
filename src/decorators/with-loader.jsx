@@ -3,8 +3,8 @@ import Loader from './../components/Loader';
 import * as ErrorComponent from './../components/Error';
 
 export default  (Component) => {
-  return (isLoading, isError, ...rest) => {
-    console.log(isLoading, isError);
+  return (props,context) => {
+    const { isLoading, isError, ...rest} = props;
     return isLoading ? (
       <Loader />
     ) : isError ? (

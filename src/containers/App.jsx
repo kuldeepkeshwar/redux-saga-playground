@@ -13,9 +13,9 @@ const UserListWrapper = WithLoader(UserList);
 
 const App = ({ fetchUsers, ...rest }) => (
   <div style={styles}>
+    <h2>Click to see some magic happen {"\u2728"}</h2>
     <button onClick={fetchUsers}> Fetch Users</button>
     <UserListWrapper {...rest} />
-    <h2>Click to see some magic happen {"\u2728"}</h2>
   </div>
 );
 const props = state => ({
