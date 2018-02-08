@@ -1,6 +1,6 @@
 import { takeEvery, put, call } from "redux-saga/effects";
-import { types as UserTypes } from "./reducers";
-import { fetchUsers } from "./api";
+import { types as UserTypes } from "./../reducers";
+import { fetchUsers } from "./../lib/api";
 
 function* userSaga(action) {
   try {

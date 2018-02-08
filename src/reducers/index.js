@@ -4,18 +4,17 @@ const types = {
   PERSONS_FETCH_FAILURE: "PERSONS_FETCH_FAILURE"
 };
 const initalState = {
-  persons: [],
+  users: [],
   loading: false,
   error: false,
   filters: {}
 };
 export default (state = initalState, { type, payload }) => {
-  console.log(payload);
   switch (type) {
     case types.PERSONS_FETCH: {
       return {
         error: false,
-        persons: [],
+        users: [],
         loading: true,
         filters: payload
       };
@@ -23,14 +22,14 @@ export default (state = initalState, { type, payload }) => {
     case types.PERSONS_FETCH_SUCCESS: {
       return {
         ...state,
-        persons: payload,
+        users: payload,
         loading: false
       };
     }
     case types.PERSONS_FETCH_FAILURE: {
       return {
         ...state,
-        persons: [],
+        users: [],
         error: true,
         loading: false
       };
@@ -45,8 +44,8 @@ const actions = {
   fetchUsers
 };
 const selectors = {
-  getPersons: state => state.persons,
+  getUsers: state => state.users,
   isLoading: state => state.loading,
-  isError: state => state.Error
+  isError: state => state.error
 };
 export { types, actions, selectors };
