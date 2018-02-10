@@ -22,9 +22,9 @@ const cellIdStyles = {
 const containerStyles = {
   margin: "10px"
 };
-export default ({ albums }) => (
+export default ({ results }) => (
   <div style={containerStyles}>
-    {albums.map(album => (
+    {results.map(album => (
       <div style={rowStyles} key={album.id}>
         <div style={cellIdStyles}>{album.id}</div>
         <div style={cellStyles}>{album.userId}</div>
