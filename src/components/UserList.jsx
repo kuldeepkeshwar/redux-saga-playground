@@ -5,7 +5,6 @@ const rowStyles = {
   border: "#bb9797 solid 2px",
   alignItems: "left",
   margin: "10px",
-  justifyContent: "center"
 };
 const cellStyles = {
   margin: "10px",

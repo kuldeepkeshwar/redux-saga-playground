@@ -5,7 +5,7 @@ import { fetchData } from "./../lib/api";
 function* searchSaga(action) {
   try {
     const filter = yield select(selectors.getFilter);
-    const result = yield call(fetchData, filter);
+    const result = yield call(fetchData, filter.type);
     yield put({ type: SearchTypes.FETCH_SUCCESS, payload: result });
   } catch (error) {
     yield put({ type: SearchTypes.FETCH_FAILURE, payload: error });
