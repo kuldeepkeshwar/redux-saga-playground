@@ -1,15 +1,16 @@
-import { takeEvery, put, call } from "redux-saga/effects";
-import { types as UserTypes } from "./../reducers";
-import { fetchUsers } from "./../lib/api";
+import { takeEvery, put, call, select } from "redux-saga/effects";
+import { types as SearchTypes, selectors } from "./../reducers";
+import { fetchData } from "./../lib/api";
 
-function* userSaga(action) {
+function* searchSaga(action) {
   try {
-    const users = yield call(fetchUsers, action);
-    yield put({type:UserTypes.USER_FETCH_SUCCESS, payload:users});
+    const filter = yield select(selectors.getFilter);
+    const result = yield call(fetchData, filter);
+    yield put({ type: SearchTypes.FETCH_SUCCESS, payload: result });
   } catch (error) {
-    yield put({ type:UserTypes.USER_FETCH_FAILURE, payload:error});
+    yield put({ type: SearchTypes.FETCH_FAILURE, payload: error });
   }
 }
 export default function* rootSaga() {
-  yield takeEvery(UserTypes.USER_FETCH, userSaga);
+  yield takeEvery(SearchTypes.FETCH, searchSaga);
 }

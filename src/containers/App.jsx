@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import UserList from "./../components/UserList";
-import { actions as UserActions, selectors } from "./../reducers";
-import WithLoader from './../decorators/with-loader';
+import { actions as SearchActions, selectors } from "./../reducers";
+import WithLoader from "./../decorators/with-loader";
 
 const styles = {
   fontFamily: "sans-serif",
@@ -11,20 +11,32 @@ const styles = {
 
 const UserListWrapper = WithLoader(UserList);
 
-const App = ({ fetchUsers, canClear, clearUsers, ...rest }) => (
+const App = ({
+  changeFilter,
+  filters,
+  search,
+  canClear,
+  clear,
+  ...rest
+}) => (
   <div style={styles}>
-    <h2>Click to see some magic happen {"\u2728"}</h2>
-    {(canClear) ? <button onClick={clearUsers}> Clear</button> : <button onClick={fetchUsers}> Fetch Users</button>
-    }
+    <h2>Search Users/Albums {"\u2728"}</h2>
+    <select onChange={changeFilter} value={filters}>
+      <option value="users">Users</option>
+      <option value="albums">Albums</option>
+    </select>
+    <button onClick={search}> Search</button>
+    {canClear ? <button onClick={clear}> Clear</button> : null}
     <UserListWrapper {...rest} />
   </div>
 );
 const props = state => ({
-  users: selectors.getUsers(state),
+  users: selectors.getSearchResult(state),
+  filters: selectors.getFilter(state),
   isLoading: selectors.isLoading(state),
   isError: selectors.isError(state),
-  canClear: selectors.canClear(state),
+  canClear: selectors.canClear(state)
 });
-const actions = { ...UserActions};
+const actions = { ...SearchActions };
 
 export default connect(props, actions)(App);

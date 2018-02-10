@@ -1,7 +1,7 @@
-async function fetchUsers() {
-  return await fetch("https://jsonplaceholder.typicode.com/users").then(resp =>
+async function fetchData(type) {
+  return await fetch(`https://jsonplaceholder.typicode.com/${type}`).then(resp =>
     resp.json()
   );
 }
 
-export { fetchUsers };
+export { fetchData };

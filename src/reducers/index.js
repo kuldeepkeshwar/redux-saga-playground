@@ -1,62 +1,75 @@
 const types = {
-  USER_FETCH: "USER_FETCH",
-  USER_FETCH_SUCCESS: "USER_FETCH_SUCCESS",
-  USER_FETCH_FAILURE: "USER_FETCH_FAILURE",
-  USER_CLEAR: "USER_CLEAR"
+  FETCH: "FETCH",
+  FETCH_SUCCESS: "FETCH_SUCCESS",
+  FETCH_FAILURE: "FETCH_FAILURE",
+  CLEAR: "CLEAR",
+  CHANGE_FILTER:"CHANGE_FILTER",
+};
+const FILTER_TYPES = {
+  USERS: "users",
+  ALBUMS: "albums"
 };
 const initalState = {
-  users: [],
+  results: [],
   loading: false,
   error: false,
-  filters: {}
+  filters: FILTER_TYPES.USERS
 };
 export default (state = initalState, { type, payload }) => {
+  debugger;
   switch (type) {
-    case types.USER_CLEAR: {
+    case types.CLEAR: {
+      return {
+        ...state,
+        results: [],
+      };
+    }
+    case types.FETCH: {
       return {
         ...state,
         error: false,
-        users: [],
-        loading: false
-      };
-    }
-    case types.USER_FETCH: {
-      return {
-        error: false,
-        users: [],
+        results: [],
         loading: true,
-        filters: payload
       };
     }
-    case types.USER_FETCH_SUCCESS: {
+    case types.FETCH_SUCCESS: {
       return {
         ...state,
-        users: payload,
+        results: payload,
         loading: false
       };
     }
-    case types.USER_FETCH_FAILURE: {
+    case types.FETCH_FAILURE: {
       return {
         ...state,
-        users: [],
+        results: [],
         error: true,
         loading: false
+      };
+    }
+    case types.CHANGE_FILTER: {
+      return {
+        ...state,
+        filters: payload
       };
     }
     default:
       return state;
   }
 };
-const fetchUsers = filters => ({ type: types.USER_FETCH, payload: filters });
-const clearUsers = () => ({ type: types.USER_CLEAR });
+const search = () => ({ type: types.FETCH});
+const clear = () => ({ type: types.CLEAR });
+const changeFilter = (event) => ({ type: types.CHANGE_FILTER, payload: event.target.value  });
 const actions = {
-  fetchUsers,
-  clearUsers
+  search,
+  clear,
+  changeFilter,
 };
 const selectors = {
-  getUsers: state => state.users,
+  getSearchResult: state => state.results,
+  getFilter:state=>state.filters,
   isLoading: state => state.loading,
   isError: state => state.error,
-  canClear: state => state.users.length > 0
+  canClear: state => state.results.length > 0
 };
 export { types, actions, selectors };
