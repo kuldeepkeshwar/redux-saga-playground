@@ -72,4 +72,4 @@ const selectors = {
   isError: state => state.error,
   canClear: state => state.results.length > 0
 };
-export { types, actions, selectors };
+export { FILTER_TYPES ,types, actions, selectors };
