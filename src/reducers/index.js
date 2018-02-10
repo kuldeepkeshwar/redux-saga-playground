@@ -13,7 +13,9 @@ const initalState = {
   results: [],
   loading: false,
   error: false,
-  filters: FILTER_TYPES.USERS
+  filters: {
+    type: FILTER_TYPES.USERS
+  }
 };
 export default (state = initalState, { type, payload }) => {
   debugger;
@@ -30,13 +32,14 @@ export default (state = initalState, { type, payload }) => {
         error: false,
         results: [],
         loading: true,
+        filters: { ...state.filters, ...payload}
       };
     }
     case types.FETCH_SUCCESS: {
       return {
         ...state,
         results: payload,
-        loading: false
+        loading: false,
       };
     }
     case types.FETCH_FAILURE: {
@@ -47,23 +50,15 @@ export default (state = initalState, { type, payload }) => {
         loading: false
       };
     }
-    case types.CHANGE_FILTER: {
-      return {
-        ...state,
-        filters: payload
-      };
-    }
     default:
       return state;
   }
 };
-const search = () => ({ type: types.FETCH});
+const search = (filters) => ({ type: types.FETCH,payload:filters});
 const clear = () => ({ type: types.CLEAR });
-const changeFilter = (event) => ({ type: types.CHANGE_FILTER, payload: event.target.value  });
 const actions = {
   search,
   clear,
-  changeFilter,
 };
 const selectors = {
   getSearchResult: state => state.results,

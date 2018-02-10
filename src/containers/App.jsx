@@ -21,19 +21,18 @@ const ListWrapper ={
   [FILTER_TYPES.USERS]: UserListWrapper,
   [FILTER_TYPES.ALBUMS]: AlbumListWrapper,
 }
-const renderList = (filter, props) => {
-  const Component = ListWrapper[filter];
+const renderList = ({type}, props) => {
+  const Component = ListWrapper[type];
   return <Component {...props}/>
 };
-const App = ({ changeFilter, filters, search, canClear, clear, ...rest }) => (
+const App = ({ filters, search, canClear, clear, ...rest }) => (
   <div style={styles}>
     <h2>Search Users/Albums {"\u2728"}</h2>
     <SearchForm 
-      changeFilter={changeFilter}
       filters={filters}
       search={search}
       canClear={canClear}
-      clear={canClear}
+      clear={clear}
     ></SearchForm>
     {renderList(filters, {...rest})}
   </div>
