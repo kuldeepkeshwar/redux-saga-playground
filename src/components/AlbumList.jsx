@@ -22,15 +22,13 @@ const cellIdStyles = {
 const containerStyles = {
   margin: "10px"
 };
-export default ({ users }) => (
+export default ({ albums }) => (
   <div style={containerStyles}>
-    {users.map(user => (
-      <div style={rowStyles} key={user.name}>
-        <div style={cellIdStyles}>{user.id}</div>
-        <div style={cellStyles}>{user.name}</div>
-        <div style={cellStyles}>{user.email}</div>
-        <div style={cellStyles}>{user.phone}</div>
-        <div style={cellStyles}>{user.website}</div>
+    {albums.map(album => (
+      <div style={rowStyles} key={album.id}>
+        <div style={cellIdStyles}>{album.id}</div>
+        <div style={cellStyles}>{album.userId}</div>
+        <div style={cellStyles}>{album.title}</div>
       </div>
     ))}
   </div>
