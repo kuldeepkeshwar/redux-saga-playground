@@ -1,17 +1,54 @@
 import React from 'react';
-import { connect } from 'react-redux'
 import { ConnectedRouter } from 'react-router-redux';
-import { Route, Switch } from 'react-router';
+import { Route } from 'react-router';
 import { Link } from 'react-router-dom';
 import { history } from './config';
+import App from './containers/App';
 
-const ConnectedSwitch = connect(state => ({
-  location: state.location
-}))(Switch)
-
-export default  <ConnectedRouter history={history}>
-  <ConnectedSwitch>
-    <Route exact path="/" component={() => (<h1>Home <Link to="/about">About</Link></h1>)} />
-    <Route path="/about" component={() => (<h1>About <Link to="/">Home</Link></h1>)} />
-  </ConnectedSwitch>
-</ConnectedRouter>;
+class AppContainer extends React.Component {
+  render() {
+    return (
+      <ConnectedRouter history={history}>
+        <div>
+          <Route
+            exact
+            path="/"
+            component={() => (
+              <div>
+                <h1>
+                  <Link to="/search">Search </Link>
+                  <Link to="/chat">Chat </Link>
+                </h1>
+              </div>
+            )}
+          />
+          <Route
+            path="/search"
+            component={() => (
+              <div>
+                <h1>
+                  <Link to="/">Home </Link>
+                  <Link to="/chat">Chat </Link>
+                </h1>
+                <App />
+              </div>
+            )}
+          />
+          <Route
+            path="/chat"
+            component={() => (
+              <div>
+                <h1>
+                  <Link to="/">Home </Link>
+                  <Link to="/search">Search </Link>
+                </h1>
+                <div>WIP .. </div>
+              </div>
+            )}
+          />
+        </div>
+      </ConnectedRouter>
+    );
+  }
+}
+export default AppContainer;
