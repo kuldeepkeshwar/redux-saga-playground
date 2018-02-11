@@ -1,3 +1,5 @@
 import React from "react";
-
-export default () => <div>Something went wrong !!! </div>;
+const styles = {
+  padding: '20px'
+}
+export default () => <div style={styles}>Something went wrong !!! </div>;

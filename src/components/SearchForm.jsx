@@ -16,7 +16,7 @@ class SearchForm extends React.Component {
     this.props.search(this.state.filters);
   };
   render() {
-    const { clear, filters, canClear } = this.props;
+    const { clear, canClear } = this.props;
     return (
       <div>
         <select onChange={this.changeFilter} value={this.state.filters.type}>
