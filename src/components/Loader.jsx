@@ -1,3 +1,5 @@
 import React from 'react';
-
-export default () => <div>loading .... </div>;
+const styles= {
+  padding:'20px'
+}
+export default () => <div style={styles}>loading .... </div>;
