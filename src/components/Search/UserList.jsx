@@ -1,36 +1,36 @@
 import React from "react";
+import {
+  Table,
+  TableBody,
+  TableFooter,
+  TableHeader,
+  TableHeaderColumn,
+  TableRow,
+  TableRowColumn,
+} from 'material-ui/Table';
 
-const rowStyles = {
-  display: "flex",
-  border: "#bb9797 solid 2px",
-  alignItems: "left",
-  margin: "10px",
-};
-const cellStyles = {
-  margin: "10px",
-  width: "90px",
-  overflow: "hidden",
-  textOverflow: "ellipsis"
-};
-const cellIdStyles = {
-  margin: "10px 0px",
-  width: "25px",
-  overflow: "hidden",
-  textOverflow: "ellipsis"
-};
-const containerStyles = {
-  margin: "10px"
-};
-export default ({ results }) => (
-  <div style={containerStyles}>
-    {results.map(user => (
-      <div style={rowStyles} key={user.name}>
-        <div style={cellIdStyles}>{user.id}</div>
-        <div style={cellStyles}>{user.name}</div>
-        <div style={cellStyles}>{user.email}</div>
-        <div style={cellStyles}>{user.phone}</div>
-        <div style={cellStyles}>{user.website}</div>
-      </div>
-    ))}
-  </div>
-);
+export default ({ results }) =>
+  results.length > 0 ? (
+    <Table>
+      <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
+        <TableRow>
+          <TableHeaderColumn>ID</TableHeaderColumn>
+          <TableHeaderColumn>Name</TableHeaderColumn>
+          <TableHeaderColumn>Email</TableHeaderColumn>
+          <TableHeaderColumn>Phone</TableHeaderColumn>
+          <TableHeaderColumn>Website</TableHeaderColumn>
+        </TableRow>
+      </TableHeader>
+      <TableBody displayRowCheckbox={false}>
+        {results.map(user => (
+          <TableRow key={user.id}>
+            <TableRowColumn>{user.id}</TableRowColumn>
+            <TableRowColumn>{user.name}</TableRowColumn>
+            <TableRowColumn>{user.email}</TableRowColumn>
+            <TableRowColumn>{user.phone}</TableRowColumn>
+            <TableRowColumn>{user.website}</TableRowColumn>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  ) : null;

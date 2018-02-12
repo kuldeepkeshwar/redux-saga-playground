@@ -1,13 +1,23 @@
 import React from "react";
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+import RaisedButton from 'material-ui/RaisedButton';
 
+const btnStyle = {
+  margin: 12,
+};
+const formStyle={
+  display: 'flex',
+  justifyContent: 'center'
+}
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
     const { filters } = props;
     this.state = { filters };
   }
-  changeFilter = event => {
-    const type=event.target.value;
+  changeFilter = (event, index, value) => {
+    const type=value;
     this.setState(state => {
       return { filters: { ...state.filters, type} };
     });
@@ -18,13 +28,18 @@ class SearchForm extends React.Component {
   render() {
     const { clear, canClear } = this.props;
     return (
-      <div>
-        <select onChange={this.changeFilter} value={this.state.filters.type}>
-          <option value="users">Users</option>
-          <option value="albums">Albums</option>
-        </select>
-        <button onClick={this.search}> Search</button>
-        {canClear ? <button onClick={clear}> Clear</button> : null}
+      <div style={formStyle}>
+        <SelectField
+          value={this.state.filters.type}
+          onChange={this.changeFilter}
+        >
+          <MenuItem value={"users"} primaryText="Users" />
+          <MenuItem value={"albums"} primaryText="Albums" />
+        </SelectField>
+        <RaisedButton style={btnStyle} onClick={this.search} label="Search" />
+
+        {canClear ?
+          <RaisedButton style={btnStyle} onClick={clear} label="Clear" />: null}
       </div>
     );
   }
