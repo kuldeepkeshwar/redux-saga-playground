@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { push } from 'react-router-redux';
-import Navbar from './../components/Navbar';
+import Navbar from 'components/Navbar';
 const props = state => ({ location: state.router.location.pathname });
 const actions = dispatch => ({
   changeTab: value => {

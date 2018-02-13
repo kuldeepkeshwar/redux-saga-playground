@@ -1,6 +1,6 @@
 import { takeLatest, put, call, select } from "redux-saga/effects";
-import { types as SearchTypes, selectors , actions } from "./../reducers/search";
-import { fetchData } from "./../lib/api";
+import { types as SearchTypes, selectors , actions } from "reducers/search";
+import { fetchData } from "lib/api";
 
 function* worker(action) {
   try {

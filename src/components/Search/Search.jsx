@@ -2,8 +2,8 @@ import React from "react";
 import UserList from "./UserList";
 import AlbumList from "./AlbumList";
 import SearchForm from "./SearchForm";
-import { Search_FILTER_TYPES as FILTER_TYPES } from './../../utils/constants';
-import WithLoader from "./../../decorators/with-loader";
+import { Search_FILTER_TYPES as FILTER_TYPES } from 'utils/constants';
+import WithLoader from "decorators/with-loader";
 
 const styles = {
   fontFamily: "sans-serif",

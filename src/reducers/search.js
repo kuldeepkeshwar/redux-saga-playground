@@ -1,4 +1,4 @@
-import { Search_FILTER_TYPES as FILTER_TYPES } from './../utils/constants';
+import { Search_FILTER_TYPES as FILTER_TYPES } from 'utils/constants';
 const types = {
   FETCH: "FETCH",
   FETCH_SUCCESS: "FETCH_SUCCESS",

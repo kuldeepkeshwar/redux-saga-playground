@@ -8,18 +8,6 @@ import {
   TableRowColumn
 } from 'material-ui/Table';
 
-// const rowStyles = {
-//   display: "flex",
-//   border: "#bb9797 solid 2px",
-//   alignItems: "center",
-//   margin: "10px",
-// };
-// const cellStyles = {
-//   margin: "10px",
-// };
-// const containerStyles = {
-//   margin: "10px"
-// };
 export default ({ results }) =>
   results.length > 0 ? (
     <Table>

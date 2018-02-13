@@ -1,11 +1,11 @@
 import React from 'react';
 import { ConnectedRouter } from 'react-router-redux';
 import { Route, Redirect } from 'react-router';
-import { history } from './config';
+import { history } from 'config';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import Search from './containers/Search';
-import Chat from './containers/Chat';
-import Page from './components/Page';
+import Search from 'containers/Search';
+import Chat from 'containers/Chat';
+import Page from 'components/Page';
 
 const SearchPage = () => <Page Component={Search} />;
 const ChatPage = () => <Page Component={Chat} />;

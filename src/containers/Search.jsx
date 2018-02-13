@@ -1,9 +1,9 @@
 import { connect } from "react-redux";
-import {SearchComponent} from "./../components/Search";
+import {SearchComponent} from "components/Search";
 import {
   actions as SearchActions,
   selectors
-} from "./../reducers/search";
+} from "reducers/search";
 const props = state => ({
   results: selectors.getSearchResult(state),
   filters: selectors.getFilter(state),
