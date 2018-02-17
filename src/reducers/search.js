@@ -1,16 +1,30 @@
-import { Search_FILTER_TYPES as FILTER_TYPES } from 'utils/constants';
+import { DATE_FILTER } from 'lib/constants';
+
 const types = {
-  FETCH: "FETCH",
-  FETCH_SUCCESS: "FETCH_SUCCESS",
-  FETCH_FAILURE: "FETCH_FAILURE",
-  CLEAR: "CLEAR"
+  CHANGE_FILTER: 'CHANGE_FILTER',
+  FETCH_USER: 'FETCH_USER',
+  FETCH_USER_SUCCESS: 'FETCH_USER_SUCCESS',
+  FETCH_USER_FAILURE: 'FETCH_USER_FAILURE',
+  FETCH_ALBUM: 'FETCH_ALBUM',
+  FETCH_ALBUM_SUCCESS: 'FETCH_ALBUM_SUCCESS',
+  FETCH_ALBUM_FAILURE: 'FETCH_ALBUM_FAILURE',
+  CLEAR: 'CLEAR'
 };
 const initalState = {
-  results: [],
-  loading: false,
-  error: false,
+  users: {
+    open: false,
+    results: [],
+    loading: false,
+    error: false
+  },
+  albums: {
+    open: false,
+    results: [],
+    loading: false,
+    error: false
+  },
   filters: {
-    type: FILTER_TYPES.USERS
+    date: DATE_FILTER.Today
   }
 };
 export default (state = initalState, { type, payload }) => {
@@ -18,53 +32,135 @@ export default (state = initalState, { type, payload }) => {
     case types.CLEAR: {
       return {
         ...state,
-        results: []
+        users: {
+          open: false,
+          results: [],
+          loading: false,
+          error: false
+        },
+        albums: {
+          open: false,
+          results: [],
+          loading: false,
+          error: false
+        }
       };
     }
-    case types.FETCH: {
+    case types.CHANGE_FILTER: {
       return {
         ...state,
-        error: false,
-        results: [],
-        loading: true,
         filters: { ...state.filters, ...payload }
       };
     }
-    case types.FETCH_SUCCESS: {
+    case types.FETCH_USER: {
       return {
         ...state,
-        results: payload,
-        loading: false
+        users: {
+          open: true,
+          error: false,
+          results: [],
+          loading: true
+        }
       };
     }
-    case types.FETCH_FAILURE: {
+    case types.FETCH_USER_SUCCESS: {
       return {
         ...state,
-        results: [],
-        error: true,
-        loading: false
+        users: {
+          ...state.users,
+          results: payload,
+          loading: false
+        }
+      };
+    }
+    case types.FETCH_USER_FAILURE: {
+      return {
+        ...state,
+        users: {
+          ...state.users,
+          results: [],
+          error: true,
+          loading: false
+        }
+      };
+    }
+    case types.FETCH_ALBUM: {
+      return {
+        ...state,
+        albums: {
+          open: true,
+          error: false,
+          results: [],
+          loading: true
+        }
+      };
+    }
+    case types.FETCH_ALBUM_SUCCESS: {
+      return {
+        ...state,
+        albums: {
+          ...state.albums,
+          results: payload,
+          loading: false
+        }
+      };
+    }
+    case types.FETCH_ALBUM_FAILURE: {
+      return {
+        ...state,
+        albums: {
+          ...state.albums,
+          results: [],
+          error: true,
+          loading: false
+        }
       };
     }
     default:
       return state;
   }
 };
-const search = filters => ({ type: types.FETCH, payload: filters });
-const searchResponse = results => ({ type: types.FETCH_SUCCESS, payload: results });
-const searchError = err => ({ type: types.FETCH_FAILURE, payload: err });
 
+const changeFilter = filters => ({
+  type: types.CHANGE_FILTER,
+  payload: filters
+});
 const clear = () => ({ type: types.CLEAR });
+
+const fetchUsers = () => ({
+  type: types.FETCH_USER
+});
+const userResponse = results => ({
+  type: types.FETCH_USER_SUCCESS,
+  payload: results
+});
+const userError = err => ({ type: types.FETCH_USER_FAILURE, payload: err });
+
+const fetchAlbums = () => ({
+  type: types.FETCH_ALBUM
+});
+const albumResponse = results => ({
+  type: types.FETCH_ALBUM_SUCCESS,
+  payload: results
+});
+const albumError = err => ({ type: types.FETCH_ALBUM_FAILURE, payload: err });
+
 const actions = {
-  search, searchResponse, searchError,
+  changeFilter,
+  fetchUsers,
+  userResponse,
+  userError,
+  fetchAlbums,
+  albumResponse,
+  albumError,
   clear
 };
-const getState = (state) => state.search;
+const getState = state => state.search;
 
 const selectors = {
-  getSearchResult: state => getState(state).results,
-  getFilter: state => getState(state).filters,
-  isLoading: state => getState(state).loading,
-  isError: state => getState(state).error,
-  canClear: state => getState(state).results.length > 0
+  getState: getState,
+  getUsersData: state => getState(state).users,
+  getAlbumsData: state => getState(state).albums,
+  getFilter: state => getState(state).filters
 };
 export { types, actions, selectors };

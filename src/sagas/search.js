@@ -1,16 +1,36 @@
-import { takeLatest, put, call, select } from "redux-saga/effects";
-import { types as SearchTypes, selectors , actions } from "reducers/search";
-import { fetchData } from "lib/api";
+import { takeLatest, put, select } from 'redux-saga/effects';
+import { types, selectors, actions } from 'reducers/search';
+import { fetchData } from 'lib/api';
+import { SEARCH_FILTER_TYPES } from 'lib/constants';
+import { apiCaller } from 'lib/utils';
 
-function* worker(action) {
-  try {
-    const filter = yield select(selectors.getFilter);
-    const result = yield call(fetchData, filter.type);
-    yield put(actions.searchResponse(result));
-  } catch (error) {
-    yield put(actions.searchError(error));
+const userApi = apiCaller(fetchData, actions.userResponse, actions.userError);
+const albumApi = apiCaller(
+  fetchData,
+  actions.albumResponse,
+  actions.albumError
+);
+
+function* userWorker(action) {
+  const filter = yield select(selectors.getFilter);
+  yield userApi(SEARCH_FILTER_TYPES.USERS, filter);
+}
+function* albumWorker(action) {
+  const filter = yield select(selectors.getFilter);
+  yield albumApi(SEARCH_FILTER_TYPES.ALBUMS, filter);
+}
+
+function* filterWorker(action) {
+  const { users, albums } = yield select(selectors.getState);
+  if (users.open) {
+    yield put(actions.fetchUsers());
+  }
+  if (albums.open) {
+    yield put(actions.fetchAlbums());
   }
 }
 export default function* watcher() {
-  yield takeLatest(SearchTypes.FETCH, worker);
+  yield takeLatest(types.FETCH_USER, userWorker);
+  yield takeLatest(types.FETCH_ALBUM, albumWorker);
+  yield takeLatest(types.CHANGE_FILTER, filterWorker);
 }

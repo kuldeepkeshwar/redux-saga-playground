@@ -4,10 +4,10 @@ import * as ErrorComponent from 'components/Error';
 
 export default  (Component) => {
   return (props,context) => {
-    const { isLoading, isError, ...rest} = props;
-    return isLoading ? (
+    const { loading, error, ...rest} = props;
+    return loading ? (
       <Loader />
-    ) : isError ? (
+    ) : error ? (
       <ErrorComponent />
     ) : (
           <Component {...rest} />

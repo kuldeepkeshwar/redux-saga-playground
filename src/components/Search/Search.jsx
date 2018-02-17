@@ -2,8 +2,8 @@ import React from 'react';
 import UserList from './UserList';
 import AlbumList from './AlbumList';
 import SearchForm from './SearchForm';
-import { Search_FILTER_TYPES as FILTER_TYPES } from 'utils/constants';
 import WithLoader from 'decorators/with-loader';
+import Accordion from 'components/Accordion';
 
 const styles = {
   fontFamily: 'sans-serif',
@@ -12,24 +12,23 @@ const styles = {
 
 const UserListWrapper = WithLoader(UserList);
 const AlbumListWrapper = WithLoader(AlbumList);
-const ListWrapper = {
-  [FILTER_TYPES.USERS]: UserListWrapper,
-  [FILTER_TYPES.ALBUMS]: AlbumListWrapper
-};
-const renderList = ({ type }, props) => {
-  const Component = ListWrapper[type];
-  return <Component {...props} />;
-};
 
-export default ({ filters, search, canClear, clear, ...rest }) => (
+export default ({
+  filters,
+  userData,
+  albumData,
+  fetchUsers,
+  fetchAlbums,
+  changeFilter
+}) => (
   <div style={styles}>
     <h2>Search Users/Albums {'\u2728'}</h2>
-    <SearchForm
-      filters={filters}
-      search={search}
-      canClear={canClear}
-      clear={clear}
-    />
-    {renderList(filters, { ...rest })}
+    <SearchForm changeFilter={changeFilter} filters={filters} />
+    <Accordion open={userData.open} title="Users" onOpen={fetchUsers}>
+      <UserListWrapper {...userData} />
+    </Accordion>
+    <Accordion open={albumData.open} title="Albums" onOpen={fetchAlbums}>
+      <AlbumListWrapper {...albumData} />
+    </Accordion>
   </div>
 );
