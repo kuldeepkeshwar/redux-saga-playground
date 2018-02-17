@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
-import RaisedButton from 'material-ui/RaisedButton';
+import { DATE_FILTER } from 'lib/constants';
 
 const btnStyle = {
-  margin: 12,
+  margin: 12
 };
-const formStyle={
+const formStyle = {
   display: 'flex',
   justifyContent: 'center'
-}
+};
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
@@ -17,29 +17,25 @@ class SearchForm extends React.Component {
     this.state = { filters };
   }
   changeFilter = (event, index, value) => {
-    const type=value;
+    const date = value;
     this.setState(state => {
-      return { filters: { ...state.filters, type} };
+      return { filters: { ...state.filters, date } };
     });
-  };
-  search = () => {
-    this.props.search(this.state.filters);
+    this.props.changeFilter(this.state.filters);
   };
   render() {
-    const { clear, canClear } = this.props;
     return (
       <div style={formStyle}>
         <SelectField
-          value={this.state.filters.type}
+          value={this.state.filters.date}
           onChange={this.changeFilter}
         >
-          <MenuItem value={"users"} primaryText="Users" />
-          <MenuItem value={"albums"} primaryText="Albums" />
+          {Object.keys(DATE_FILTER).map(key => {
+            return (
+              <MenuItem key={key} value={DATE_FILTER[key]} primaryText={key} />
+            );
+          })}
         </SelectField>
-        <RaisedButton style={btnStyle} onClick={this.search} label="Search" />
-
-        {canClear ?
-          <RaisedButton style={btnStyle} onClick={clear} label="Clear" />: null}
       </div>
     );
   }

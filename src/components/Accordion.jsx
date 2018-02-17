@@ -1,7 +1,9 @@
 import React from 'react';
 import { PropTypes } from 'prop-types';
 
-const styles = {};
+const styles = {
+  margin: '5px 0'
+};
 const noop = () => {};
 
 const headerStyle = {
@@ -47,7 +49,7 @@ class Accordion extends React.Component {
     };
   }
   static propTypes = {
-    open: PropTypes.boolean,
+    open: PropTypes.bool,
     onOpen: PropTypes.func,
     onClose: PropTypes.func
   };
@@ -57,11 +59,21 @@ class Accordion extends React.Component {
     onClose: noop
   };
   onClick = () => {
-    const { isOpen } = this.state;
-    this.setState({ isOpen: !isOpen });
-    if (isOpen) this.props.onOpen();
-    else this.props.onClose();
+    this.setState(state => {
+      const { isOpen } = state;
+      if (!isOpen){
+        this.props.onOpen();
+      }else {
+        this.props.onClose();
+      }
+      return { isOpen: !isOpen };
+    });
   };
+  componentWillReceiveProps(nextProps) {
+    if (this.props.open !== nextProps.open) {
+      this.setState({ isOpen: nextProps.open });
+    }
+  }
   render() {
     const { title, children, Header } = this.props;
     const { isOpen } = this.state;
@@ -73,11 +85,10 @@ class Accordion extends React.Component {
         ) : (
           <DefaultHeader {...headerProps} />
         )}
-        {isOpen ? <div style={bodyStyle}>{children}</div> : null}
+        {isOpen && children ? <div style={bodyStyle}>{children}</div> : null}
       </div>
     );
   }
 }
 
 export default Accordion;
-//<Accordion title="Users" open> {children} </Accordion>
