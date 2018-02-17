@@ -11,3 +11,13 @@ export const apiCaller = (api, success, failure) => {
     }
   };
 };
+
+export const simpleActionCreator = type => payload => ({
+  type,
+  payload
+});
+export const apiTypeCreator = type => ({
+  FETCH: `FETCH_${type}`,
+  SUCCESS: `FETCH_${type}_SUCCESS`,
+  FAILURE: `FETCH_${type}_FAILURE`
+});
