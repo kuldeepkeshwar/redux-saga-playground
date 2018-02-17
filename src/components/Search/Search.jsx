@@ -1,13 +1,13 @@
-import React from "react";
-import UserList from "./UserList";
-import AlbumList from "./AlbumList";
-import SearchForm from "./SearchForm";
+import React from 'react';
+import UserList from './UserList';
+import AlbumList from './AlbumList';
+import SearchForm from './SearchForm';
 import { Search_FILTER_TYPES as FILTER_TYPES } from 'utils/constants';
-import WithLoader from "decorators/with-loader";
+import WithLoader from 'decorators/with-loader';
 
 const styles = {
-  fontFamily: "sans-serif",
-  textAlign: "center"
+  fontFamily: 'sans-serif',
+  textAlign: 'center'
 };
 
 const UserListWrapper = WithLoader(UserList);
@@ -23,7 +23,7 @@ const renderList = ({ type }, props) => {
 
 export default ({ filters, search, canClear, clear, ...rest }) => (
   <div style={styles}>
-    <h2>Search Users/Albums {"\u2728"}</h2>
+    <h2>Search Users/Albums {'\u2728'}</h2>
     <SearchForm
       filters={filters}
       search={search}
