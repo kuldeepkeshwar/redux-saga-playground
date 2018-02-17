@@ -3,8 +3,8 @@ import { SearchComponent } from 'components/Search';
 import { actions, selectors } from 'reducers/search';
 
 const props = state => ({
-  userData: selectors.getUserData(state),
-  albumData: selectors.getAlbumData(state),
+  userData: selectors.getUsersData(state),
+  albumData: selectors.getAlbumsData(state),
   filters: selectors.getFilter(state)
 });
 

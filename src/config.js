@@ -6,7 +6,7 @@ import rootReducer from "reducers";
 import rootSaga from "sagas/root";
 
 const reducers = combineReducers({
-  ...rootReducer,
+  app:rootReducer,
   router: routerReducer
 })
 const history = createHistory()

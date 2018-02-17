@@ -1,4 +1,5 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import UserList from './UserList';
 import AlbumList from './AlbumList';
 import SearchForm from './SearchForm';
@@ -13,7 +14,7 @@ const styles = {
 const UserListWrapper = WithLoader(UserList);
 const AlbumListWrapper = WithLoader(AlbumList);
 
-export default ({
+const Search = ({
   filters,
   userData,
   albumData,
@@ -32,3 +33,12 @@ export default ({
     </Accordion>
   </div>
 );
+Search.propTypes = {
+  filters: PropTypes.object.isRequired,
+  userData: PropTypes.object.isRequired,
+  albumData: PropTypes.object.isRequired,
+  changeFilter: PropTypes.func.isRequired,
+  fetchUsers: PropTypes.func.isRequired,
+  fetchAlbums: PropTypes.func.isRequired
+};
+export default Search;

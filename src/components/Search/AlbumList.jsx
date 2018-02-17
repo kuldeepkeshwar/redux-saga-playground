@@ -1,4 +1,5 @@
 import React from 'react';
+import { PropTypes } from 'prop-types';
 import {
   Table,
   TableBody,
@@ -8,7 +9,7 @@ import {
   TableRowColumn
 } from 'material-ui/Table';
 
-export default ({ results }) =>
+const AlbumList = ({ results }) =>
   results.length > 0 ? (
     <Table>
       <TableHeader displaySelectAll={false} adjustForCheckbox={false}>
@@ -29,3 +30,8 @@ export default ({ results }) =>
       </TableBody>
     </Table>
   ) : null;
+
+AlbumList.PropTypes = {
+  results: PropTypes.array.isRequired
+};
+export default AlbumList;

@@ -30,7 +30,7 @@ function* filterWorker(action) {
   }
 }
 export default function* watcher() {
-  yield takeLatest(types.FETCH_USER, userWorker);
-  yield takeLatest(types.FETCH_ALBUM, albumWorker);
+  yield takeLatest(types.USER.FETCH, userWorker);
+  yield takeLatest(types.ALBUM.FETCH, albumWorker);
   yield takeLatest(types.CHANGE_FILTER, filterWorker);
 }
