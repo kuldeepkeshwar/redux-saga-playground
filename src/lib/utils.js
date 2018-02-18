@@ -1,4 +1,5 @@
 import { put, call } from 'redux-saga/effects';
+import { types as ChatTypes } from 'reducers/chat';
 
 const trimArray = arr => arr.filter((item, i) => i < 3);
 export const apiCaller = (api, success, failure) => {
@@ -21,3 +22,16 @@ export const apiTypeCreator = type => ({
   SUCCESS: `FETCH_${type}_SUCCESS`,
   FAILURE: `FETCH_${type}_FAILURE`
 });
+export const createSocketPayload = (...args) => {
+  return JSON.stringify(socketMessageMock(...args));
+};
+
+///temp hack to mimic server
+const socketMessageMock = ({ type, payload }) => {
+  if (type === ChatTypes.CHAT.SENT) {
+    const { message } = payload;
+    const user = 'John';
+    return { type: ChatTypes.CHAT.RECEIVED, payload: { user, message } };
+  }
+  return { type, payload };
+};
