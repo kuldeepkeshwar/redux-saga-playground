@@ -1,10 +1,14 @@
-import { take, put, call } from 'redux-saga/effects';
+import { take, fork, takeEvery, put, call } from 'redux-saga/effects';
 import { eventChannel, END } from 'redux-saga';
+import { createSocketPayload } from 'lib/utils';
 
 const wsUri = 'wss://echo.websocket.org';
-function worker() {
+const ws = new WebSocket(wsUri);
+
+const listeners = {};
+
+function socketChannel() {
   return eventChannel(emitter => {
-    const ws = new WebSocket(wsUri);
     ws.onopen = () => {
       ws.send(
         JSON.stringify({
@@ -24,14 +28,10 @@ function worker() {
       } catch (err) {
         console.error(`Error parsing : ${e.data}`);
       }
+      console.log(msg);
       if (msg) {
         const { payload, type } = msg;
-        switch (type) {
-          case 'CHAT_MSG':
-            return emitter({ type: 'CHAT_MSG_RECEIVED', payload });
-          default:
-            return emitter({ type, payload });
-        }
+        emitter({ type, payload });
       }
     };
     // unsubscribe function
@@ -42,10 +42,19 @@ function worker() {
   });
 }
 export default function* watcher() {
-  const channel = yield call(worker);
+  const channel = yield call(socketChannel);
   while (true) {
-    const action = yield take(channel);
-    console.log(action);
-    yield put(action);
+    const { payload, type } = yield take(channel);
+    console.log(type);
+    const worker = listeners[type];
+    if (worker) {
+      yield fork(worker, { payload, type });
+    }
   }
+}
+export function subscribe(type, saga) {
+  listeners[type] = saga;
+}
+export function sendMessage(...args) {
+  ws.send(createSocketPayload(...args));
 }
